@@ -1,29 +1,21 @@
 ﻿using System;
-using UnityEngine;
 using Rocket.Unturned;
-using Rocket.Unturned.Plugins;
+using Rocket.Core.Plugins;
+using ZaupClearInventoryLib;
 
 namespace NoDeathLoot
 {
     public class PluginNoDeathLoot : RocketPlugin
     {
-        public bool RunFromConsole
-        {
-            get { return true; }
-        }
-        public string Name
-        {
-            get { return "nodeathloot"; }
-        }
         protected override void Load()
         {
-            Rocket.Unturned.Events.RocketPlayerEvents.OnPlayerDeath += RocketPlayerEvents_OnPlayerDeath;
+            Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerDeath += UnturnedPlayerEvents_OnPlayerDeath;
         }
 
-        private void RocketPlayerEvents_OnPlayerDeath(Rocket.Unturned.Player.RocketPlayer player, SDG.EDeathCause cause, SDG.ELimb limb, Steamworks.CSteamID murderer)
+        void UnturnedPlayerEvents_OnPlayerDeath(Rocket.Unturned.Player.UnturnedPlayer player, SDG.Unturned.EDeathCause cause, SDG.Unturned.ELimb limb, Steamworks.CSteamID murderer)
         {
-            player.Inventory.Clear(); //That's all.. ikr but it works!
+            ZaupClearInventoryLib.ZaupClearInventoryLib.Instance.ClearInv(player);
+            ZaupClearInventoryLib.ZaupClearInventoryLib.Instance.ClearClothes(player);
         }
-
     }
 }
